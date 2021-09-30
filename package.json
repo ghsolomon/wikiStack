@@ -15,7 +15,8 @@
     "html-template-tag": "^4.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "slugify": "^1.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
