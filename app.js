@@ -4,6 +4,7 @@ const layout = require("./views/layout");
 const { db, User, Page } = require("./models");
 const wikiRouter = require("./routes/wiki");
 const userRouter = require("./routes/users");
+const path = require("path");
 
 db.authenticate()
   .then(() => {
@@ -16,7 +17,7 @@ db.authenticate()
 const app = express();
 
 app.use(morgan("dev"));
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
