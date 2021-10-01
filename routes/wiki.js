@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const { Page, User } = require('../models');
-const { editPage, main, wikiPage, addPage } = require('../views');
+const router = require("express").Router();
+const { Page, User } = require("../models");
+const { editPage, main, wikiPage, addPage } = require("../views");
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const pages = await Page.findAll();
     res.send(main(pages));
@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const page = await Page.create({
       title: req.body.title,
@@ -28,11 +28,11 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.get('/add', (req, res) => {
+router.get("/add", (req, res) => {
   res.send(addPage());
 });
 
-router.get('/:slug/edit', async (req, res, next) => {
+router.get("/:slug/edit", async (req, res, next) => {
   try {
     const page = await Page.findOne({ where: { slug: req.params.slug } });
     const author = await page.getAuthor();
@@ -42,7 +42,7 @@ router.get('/:slug/edit', async (req, res, next) => {
   }
 });
 
-router.put('/:slug', async (req, res, next) => {
+router.put("/:slug", async (req, res, next) => {
   try {
     const page = await Page.findOne({ where: { slug: req.params.slug } });
     await page.update({
@@ -56,7 +56,7 @@ router.put('/:slug', async (req, res, next) => {
   }
 });
 
-router.delete('/:slug', async (req, res, next) => {
+router.delete("/:slug", async (req, res, next) => {
   try {
     const page = await Page.findOne({ where: { slug: req.params.slug } });
     await page.destroy();
@@ -66,11 +66,12 @@ router.delete('/:slug', async (req, res, next) => {
   }
 });
 
-router.get('/:slug', async (req, res, next) => {
+router.get("/:slug", async (req, res, next) => {
   try {
     const page = await Page.findOne({ where: { slug: req.params.slug } });
     if (!page) {
-      res.status(404).send('Page not found');
+      // res.status(404).send(`Page not found: ${req.params.slug}`);
+      next();
     }
     const author = await page.getAuthor();
     res.send(wikiPage(page, author));

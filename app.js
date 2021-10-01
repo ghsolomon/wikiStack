@@ -1,10 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
-const layout = require("./views/layout");
 const { db, User, Page } = require("./models");
 const wikiRouter = require("./routes/wiki");
 const userRouter = require("./routes/users");
+const { notFoundPage, errorPage } = require("./views");
 
 db.authenticate()
   .then(() => {
@@ -26,6 +26,12 @@ app.get("/", (req, res) => {
 });
 app.use("/wiki", wikiRouter);
 app.use("/users", userRouter);
+app.use("*/:slug", (req, res) => {
+  res.status(404).send(notFoundPage(req.params.slug));
+});
+app.use((err, req, res) => {
+  res.status(err.status).send(errorPage(err));
+});
 
 const init = async () => {
   await db.sync();

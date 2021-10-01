@@ -14,6 +14,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
+    if (!user) {
+      const error = new Error(`User Not Found: ${req.params.id}`);
+      error.status = 404;
+      throw error;
+      // WE NEED TO MODIFY THIS ERROR
+    }
     const pages = await Page.findAll({ where: { authorId: req.params.id } });
     res.send(userPages(user, pages));
   } catch (error) {
