@@ -1,36 +1,36 @@
-const express = require("express");
-const morgan = require("morgan");
-const methodOverride = require("method-override");
-const { db, User, Page } = require("./models");
-const wikiRouter = require("./routes/wiki");
-const userRouter = require("./routes/users");
-const { notFoundPage, errorPage } = require("./views");
+const express = require('express');
+const morgan = require('morgan');
+const methodOverride = require('method-override');
+const { db, User, Page } = require('./models');
+const wikiRouter = require('./routes/wiki');
+const userRouter = require('./routes/users');
+const { notFoundPage, errorPage } = require('./views');
 
 db.authenticate()
   .then(() => {
-    console.log("connected to the db");
+    console.log('connected to the db');
   })
   .catch((error) => {
-    console.error("Unable to connect to DB", error);
+    console.error('Unable to connect to DB', error);
   });
 
 const app = express();
 
-app.use(morgan("dev"));
-app.use(express.static(__dirname + "/public"));
+app.use(morgan('dev'));
+app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 
-app.get("/", (req, res) => {
-  res.redirect("/wiki");
+app.get('/', (req, res) => {
+  res.redirect('/wiki');
 });
-app.use("/wiki", wikiRouter);
-app.use("/users", userRouter);
-app.use("*/:slug", (req, res) => {
+app.use('/wiki', wikiRouter);
+app.use('/users', userRouter);
+app.use('*/:slug', (req, res) => {
   res.status(404).send(notFoundPage(req.params.slug));
 });
-app.use((err, req, res) => {
-  res.status(err.status).send(errorPage(err));
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).send(errorPage(err));
 });
 
 const init = async () => {

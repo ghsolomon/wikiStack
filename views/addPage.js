@@ -1,5 +1,5 @@
-const html = require("html-template-tag");
-const layout = require("./layout");
+const html = require('html-template-tag');
+const layout = require('./layout');
 
 module.exports = () =>
   layout(html`
@@ -40,6 +40,13 @@ module.exports = () =>
         <label for="content" class="col-sm-2 control-label">Content</label>
         <div class="col-sm-10">
           <textarea id="content" name="content" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tags" class="col-sm-2 control-label">Tags</label>
+        <div class="col-sm-10">
+          <input id="tags" name="tags" type="text" class="form-control" />
         </div>
       </div>
 

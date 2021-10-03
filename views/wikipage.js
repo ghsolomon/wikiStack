@@ -12,6 +12,11 @@ module.exports = (page, author) =>
     <hr />
     <div class="page-body">$${marked(page.content)}</div>
     <hr />
+    <h5>Tags</h5>
+    <ul>
+      ${page.tags.map((tag) => `<li>${tag.name}</li>`)}
+    </ul>
+    <hr />
     <a href="/wiki/${page.slug}/edit" class="btn btn-primary">edit this page</a>
     <form
       style="display: inline"

@@ -25,7 +25,14 @@ module.exports = (page, author) =>
       <div>
         <textarea name="content">${page.content}</textarea>
       </div>
-
+      <div class="col-sm-10">
+        <input
+          name="tags"
+          type="text"
+          class="form-control"
+          value="${page.tags.map((tag) => tag.name).join(' ')}"
+        />
+      </div>
       <div class="form-group">
         <label for="content" class="col-sm-2 control-label">Status</label>
         <div class="col-sm-10">
